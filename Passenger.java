@@ -1,4 +1,3 @@
-
 public class Passenger {
 	private String name;
 	private int seatNumber;
@@ -8,5 +7,18 @@ public class Passenger {
 		this.name = name;
 		this.seatNumber = seatNumber;
 		this.className = className;
+	}
+	
+	public String getName() {
+		return name;
+	}
+	public int getseatNumber() {
+		return seatNumber
+	}
+	public String getClass() {
+		return className;
+	}
+	public String toString{
+		return "Passenger Name: " + getName() + " Seat Number: " + getseatNumber() + " Class: " + getclassName();
 	}
 }
