@@ -1,3 +1,4 @@
+//Class to create the passenger object
 public class Passenger {
 	private String name;
 	private int seatNumber;
