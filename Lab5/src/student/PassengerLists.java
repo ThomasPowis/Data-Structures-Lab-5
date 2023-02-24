@@ -105,4 +105,9 @@ public class PassengerLists<E> {
 			Menu(scnr.nextLine(), scnr);
 		}
 	}
+	
+	public void CheckIn() {
+		
+		
+	}
 }
