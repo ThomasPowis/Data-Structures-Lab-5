@@ -7,9 +7,8 @@ import java.util.*;
 
 public class PassengerLists<E> {
 	
-	private Passenger[] delta;
-	private Passenger[] united;
-	
+	private Passenger[] customers;
+	private int size = 0;
 	public PassengerLists(String filename) throws FileNotFoundException {
 		/*
 		 * This will be assuming that the lists will look like this
@@ -29,65 +28,47 @@ public class PassengerLists<E> {
 		String name;
 		String seat;
 		String Aclass;
-		int x;
-		int y;
-		ArrayList<Passenger> deltapass = new ArrayList<Passenger>();
-		ArrayList<Passenger> unitedpass = new ArrayList<Passenger>();
+		ArrayList<Passenger> currFlight = new ArrayList<Passenger>();
+		
 
 		while(scnr.hasNext()) {
 			line = scnr.nextLine();
-			if (line.contains("Delta")){
-				while(!line.contains("United") && scnr.hasNext()) {
-					line = scnr.nextLine();
-					x = line.indexOf(';');
-					name = line.substring(0, x);
-					y = line.indexOf(',');
-					seat = line.substring(x +2, y);
-					Aclass = line.substring(y+2);
-					Passenger pass = new Passenger(name, seat, Aclass);
-					deltapass.add(pass);
-				}
-			}
-			if (line.contains("United")) {
-				while(!line.contains("Delta") && scnr.hasNext()) {
-					line = scnr.nextLine();
-					x = line.indexOf(';');
-					name = line.substring(0, x);
-					y = line.indexOf(',');
-					seat = line.substring(x +2, y);
-					Aclass = line.substring(y+2);
-					Passenger pass = new Passenger(name, seat, Aclass);
-					unitedpass.add(pass);
-				}
-			}
+			String[] parts = line.split(" ", 4); //Splits the line into 3 sections by each space
+			name = parts[0] + " " + parts[1];//Get the name
+			seat = parts[2]; //Get the seat
+			Aclass = parts[3];
+			Passenger pass = new Passenger(name, seat, Aclass);
+			size++;
+			currFlight.add(pass);
 		}
 		scnr.close();
 		
-		delta = deltapass.toArray(new Passenger[deltapass.size()]);
-		united = unitedpass.toArray(new Passenger[unitedpass.size()]);
+		customers = currFlight.toArray(new Passenger[currFlight.size()]);
 		
 	}
-	public Passenger[] getAllDelta() {
-		return delta;
+	public Passenger[] getAll() {
+		return customers;
 	}
-	public Passenger[] getAllUnited() {
-		return united;
+	public int getSize() {
+		return size;
 	}
 	
 
 	public static void main(String[] args) throws FileNotFoundException {
 		Scanner scnr = new Scanner(new InputStreamReader(System.in));
 		
-		PassengerLists pl = new PassengerLists(args[0]);
+		//Pass in Delta.txt as the first run arguement and United.txt as the second
+		PassengerLists deltaFlight = new PassengerLists(args[0]);
+		PassengerLists unitedFlight = new PassengerLists(args[1]);
+		
+		//Test output of the deltaFlight object
+		for(int i = 0; i < deltaFlight.getSize(); i++) {
+			System.out.println(deltaFlight.getAll()[i].getName());
+		}
 		
 		System.out.println("Hello! Please type in one of the following options (Check-In, Book, Boarding)");
 		String input = scnr.nextLine();
 		Menu(input, scnr);
-		
-		//reading in passenger testing
-		for(int i = 0; i<7; i++) {
-			System.out.println(pl.getAllDelta()[i].getName() + ", Seat: #" + pl.getAllDelta()[i].getseatNumber() + ", " + pl.getAllDelta()[i].getClassName());
-		}
 	}
 	
 	private static void Menu(String input, Scanner scnr) {
