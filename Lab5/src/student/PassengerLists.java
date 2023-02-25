@@ -5,23 +5,12 @@ import java.io.FileNotFoundException;
 import java.io.InputStreamReader;
 import java.util.*;
 
-public class PassengerLists<E> {
+public class PassengerLists {
 	
 	private Passenger[] customers;
 	private int size = 0;
 	public PassengerLists(String filename) throws FileNotFoundException {
-		/*
-		 * This will be assuming that the lists will look like this
-		 * "
-		 * Delta:
-		 * "name"; seat#, class
-		 * "name"; seat#, class
-		 * ...
-		 * 
-		 * United:
-		 * "name"; seat#, class
-		 * ...
-		 */
+		
 		FileInputStream doc = new FileInputStream(filename);
 		Scanner scnr = new Scanner(doc);
 		String line;
@@ -87,6 +76,7 @@ public class PassengerLists<E> {
 		}
 	}
 	
+	//Check-In Method
 	public void CheckIn() {
 		
 		
