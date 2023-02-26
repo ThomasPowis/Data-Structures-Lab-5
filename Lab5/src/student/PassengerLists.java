@@ -88,11 +88,6 @@ public class PassengerLists {
 			}
 		}
 		}
-	/*will call newPassengerSimulation method to see if a new passenger needs
-	 * to be added
-	 */
-	public Passenger[] addPassenger(Passenger randomcustomer, Passenger[] airline){//not finished
-		return  randomcustomer = airline.toArray(new Passenger[airline.length]);;
 
 	//has a 5 percent chance of returning false when a passenger doesnt check in
 		public static boolean checkInSimulation(int i, ArrayList<Passenger> arr) {
