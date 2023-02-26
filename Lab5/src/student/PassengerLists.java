@@ -76,9 +76,47 @@ public class PassengerLists {
 		}
 	}
 	
-	//Check-In Method
-	public void CheckIn() {
-		
-		
+	/*CheckIn method: is going to loop through the array of the passed in 
+	 * airline calling the checkInSimulation method to see if a passenger
+	 * does not check in
+	 * then will work along with the NewPassengerSimulation to see if a new
+	 * passenger needs to be added then will display the new passenger list
+	 */
+	public void CheckIn(ArrayList<Passenger> arr) {//not finished
+		for (int i = 0; i < arr.size(); i++) {
+			if(checkInSimulation(i, arr)) {
+				
+			}
+		}
+		}
+	/*will call newPassengerSimulation method to see if a new passenger needs
+	 * to be added
+	 */
+	public Passenger[] addPassenger(Passenger randomcustomer, Passenger[] airline){//not finished
+		return  randomcustomer = airline.toArray(new Passenger[airline.length]);;
+
+	//has a 5 percent chance of returning false when a passenger doesnt check in
+		public static boolean checkInSimulation(int i, ArrayList<Passenger> arr) {
+			Random rand = new Random();
+			int sim = rand.nextInt(100);
+			if(sim > 5) {
+				return true;//returns true if the passenger checks in
+			}
+		arr.remove(i);
+		return false;
+		//returns false if the passenger doesn't check in and deletes them from the array
 	}
+		//has a 10 percent chance of returning false when a new passenger checks in
+
+		public static boolean NewPassengerSimulation(PassengerLists arr, ArrayList<Passenger> randomcustomer) {
+			Random rand = new Random();
+			int sim = rand.nextInt(100);
+			if(sim > 10) {
+				return true;//returns true if no new passenger is checking in
+			}
+			arr.addPassenger(randomcustomer.get(0));
+		return false;//returns false if a new passenger is checking in
+	
+		}
+
 }
