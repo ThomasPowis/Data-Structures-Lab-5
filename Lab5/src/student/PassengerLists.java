@@ -44,6 +44,12 @@ public class PassengerLists {
 	public int getSize() {
 		return size;
 	}
+	//Method to add a passenger to a PassengerList
+	public void add(Passenger addPass) {
+		customers = Arrays.copyOf(customers, customers.length+1);
+		customers[customers.length-1] = addPass;
+		size++;
+	}
 	//test comment
 	public static void main(String[] args) throws FileNotFoundException {
 		Scanner scnr = new Scanner(new InputStreamReader(System.in));
@@ -53,11 +59,16 @@ public class PassengerLists {
 		PassengerLists unitedFlight = new PassengerLists(args[1]);
 
 		//Test output of the deltaFlight object
+		System.out.println("Delta Before: ");
 		for(int i = 0; i < deltaFlight.getSize(); i++) {
 			System.out.println(deltaFlight.getAll()[i].getName());
 		}
 
 		Menu(deltaFlight, unitedFlight);
+		System.out.println("Delta After: ");
+		for(int i = 0; i < deltaFlight.getSize(); i++) {
+			System.out.println(deltaFlight.getAll()[i].getName());
+		}
 	}
 
 	private static void Menu(PassengerLists first, PassengerLists second) {
@@ -83,7 +94,17 @@ public class PassengerLists {
 		}
 
 		else if (input.compareToIgnoreCase("Book") == 0) {
-			//book method
+			System.out.println("Please type in the first letter of the airline you want to book a seat on: ");
+			String air = sc.nextLine();
+			System.out.println("Please enter your name: ");
+			String name = sc.nextLine();
+			System.out.println("Please enter your the first letter of your desired class (F for first , B for business and E for economy): ");
+			String chosenClass = sc.nextLine();
+			if(air.toUpperCase().equals("D")) {
+				book(first,name,chosenClass,0);
+			} else if(air.toUpperCase().equals("U")) {
+				book(second,name,chosenClass,0);
+			}
 		}
 		else if (input.compareToIgnoreCase("Boarding") == 0) {
 			// boarding method
@@ -114,6 +135,63 @@ public class PassengerLists {
 			}
 		}
 		System.out.println("You are not on the list, please book a flight");
-
+	}
+	
+	//The book method made by Tom Powis
+	public static void book(PassengerLists desiredFlight, String name, String desClass, int whichFlight) {
+		//0 is delta 1 is united
+		Scanner s = new Scanner(System.in);
+		int fSize = 0;
+		int bSize = 0;
+		int eSize = 0;
+		for(int i = 0; i < desiredFlight.getSize(); i++) {
+			String currClass = desiredFlight.getAll()[i].getClassName();
+			if(currClass.equals("F")) {
+				fSize++;
+			}else if(currClass.equals("B")) {
+				bSize++;
+			}else if(currClass.equals("E")) {
+				eSize++;
+			}
+		}
+		
+		while(true){
+			desClass = desClass.toUpperCase();
+			if(desClass.equals("F") && fSize < 10){
+				break;
+			}else if(desClass.equals("B") && bSize < 10) {
+				break;
+			}else if(desClass.equals("E") && eSize < 20) {
+				break;
+			}else if (eSize >= 20 && fSize >= 10 && bSize >= 10){
+				//No seats left
+				System.out.println("There are no seats left on this flight!");
+				return;
+			} else {
+				//Choose different class
+				System.out.println("This class is fully please select a different class: !");
+				desClass = s.nextLine();
+			}
+		}
+		
+		int currSize = 0;
+		for(int i = 0; i < desiredFlight.getSize(); i++) {
+			int currSeatNum = Integer.parseInt(desiredFlight.getAll()[i].getseatNumber());
+			if(desiredFlight.getAll()[i].getClassName().equals(desClass) && currSeatNum > currSize) {
+				currSize = currSeatNum;
+			}
+		}
+		currSize = currSize+1;
+		String seatNum = Integer.toString(currSize); 
+		Passenger addPass = new Passenger(name,seatNum,desClass);
+		desiredFlight.add(addPass);
+		if(whichFlight==0) {
+			deltaCheckedIn.add(addPass);
+		}else {
+			unitedCheckedIn.add(addPass);
+		}
+		//Seat is available
+		System.out.println("You have been successfully added to this flight, your seat number is: " + currSize);
+		return;
 	}
 }
