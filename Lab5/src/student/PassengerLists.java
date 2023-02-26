@@ -7,11 +7,13 @@ import java.util.*;
 import java.util.zip.CheckedInputStream;
 
 public class PassengerLists {
-	
+
 	private Passenger[] customers;
+	public static Queue<Passenger> deltaCheckedIn = new LinkedList<>();
+	public static Queue<Passenger> unitedCheckedIn = new LinkedList<>();
 	private int size = 0;
 	public PassengerLists(String filename) throws FileNotFoundException {
-		
+
 		FileInputStream doc = new FileInputStream(filename);
 		Scanner scnr = new Scanner(doc);
 		String line;
@@ -19,7 +21,7 @@ public class PassengerLists {
 		String seat;
 		String Aclass;
 		ArrayList<Passenger> currFlight = new ArrayList<Passenger>();
-		
+
 
 		while(scnr.hasNext()) {
 			line = scnr.nextLine();
@@ -32,9 +34,9 @@ public class PassengerLists {
 			currFlight.add(pass);
 		}
 		scnr.close();
-		
+
 		customers = currFlight.toArray(new Passenger[currFlight.size()]);
-		
+
 	}
 	public Passenger[] getAll() {
 		return customers;
@@ -45,24 +47,24 @@ public class PassengerLists {
 	//test comment
 	public static void main(String[] args) throws FileNotFoundException {
 		Scanner scnr = new Scanner(new InputStreamReader(System.in));
-		
+
 		//Pass in Delta.txt as the first run arguement and United.txt as the second
 		PassengerLists deltaFlight = new PassengerLists(args[0]);
 		PassengerLists unitedFlight = new PassengerLists(args[1]);
-		
+
 		//Test output of the deltaFlight object
 		for(int i = 0; i < deltaFlight.getSize(); i++) {
 			System.out.println(deltaFlight.getAll()[i].getName());
 		}
-		
+
 		Menu(deltaFlight, unitedFlight);
 	}
-	
+
 	private static void Menu(PassengerLists first, PassengerLists second) {
 		System.out.println("Hello! Please type in one of the following options (Check-In, Book, Boarding)");
 		Scanner sc = new Scanner(System.in);
 		String input = sc.nextLine();
-		
+
 		if (input.compareToIgnoreCase("Check-In") == 0) {
 			//Check-In method
 			//1. Pass in the name and the flight list
@@ -72,12 +74,14 @@ public class PassengerLists {
 			String Name = sc.nextLine();
 			System.out.println("What flight are you on");
 			String Flight = sc.nextLine();
-			if(Flight.equals("Delta")) {
-				CheckIn(first, Name);
+			if(Flight.equalsIgnoreCase("Delta")) {
+				CheckIn(first, Name, 0);
 			}
-			CheckIn(second, Name);
+			else {
+				CheckIn(second, Name, 1);
+			}
 		}
-		
+
 		else if (input.compareToIgnoreCase("Book") == 0) {
 			//book method
 		}
@@ -88,16 +92,28 @@ public class PassengerLists {
 			System.out.println("Invalid input. Please try again, type one of these three options (Check-In, Book, Boarding)");
 		}
 	}
-	
+
 	/*CheckIn method: is going to loop through the array of the passed in 
 	 * airline calling the checkInSimulation method to see if a passenger
 	 * does not check in
 	 * then will work along with the NewPassengerSimulation to see if a new
 	 * passenger needs to be added then will display the new passenger list
 	 */
-	public static void CheckIn(PassengerLists x, String Name) {//not finished
-		
+	public static void CheckIn(PassengerLists x, String Name, int airline) {//not finished
+		for(int i = 0; i < x.getSize(); i++) {
+			if(Name.equalsIgnoreCase(x.getAll()[i].getName())) {
+				if(airline == 0) {//this is for delta Checkin
+					System.out.println("delta works!");
+					deltaCheckedIn.add(x.getAll()[i]);
+					return;
+				}
+				else {//this is for united checking
+					unitedCheckedIn.add(x.getAll()[i]);
+					return;
+				}
+			}
 		}
+		System.out.println("You are not on the list, please book a flight");
 
-
+	}
 }
