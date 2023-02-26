@@ -4,6 +4,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStreamReader;
 import java.util.*;
+import java.util.zip.CheckedInputStream;
 
 public class PassengerLists {
 	
@@ -67,8 +68,16 @@ public class PassengerLists {
 			//1. Pass in the name and the flight list
 			//2. check if the name is in the flight list
 			//3. If the name is in the array add it to some sort of data structure that stores the people that have checked in.
-			CheckIn();
+			System.out.println("What is you name");
+			String Name = sc.nextLine();
+			System.out.println("What flight are you on");
+			String Flight = sc.nextLine();
+			if(Flight.equals("Delta")) {
+				CheckIn(first, Name);
+			}
+			CheckIn(second, Name);
 		}
+		
 		else if (input.compareToIgnoreCase("Book") == 0) {
 			//book method
 		}
@@ -86,41 +95,9 @@ public class PassengerLists {
 	 * then will work along with the NewPassengerSimulation to see if a new
 	 * passenger needs to be added then will display the new passenger list
 	 */
-	public void CheckIn(ArrayList<Passenger> arr) {//not finished
-		for (int i = 0; i < arr.size(); i++) {
-			if(checkInSimulation(i, arr)) {
-				
-			}
+	public static void CheckIn(PassengerLists x, String Name) {//not finished
+		
 		}
-		}
-	/*will call newPassengerSimulation method to see if a new passenger needs
-	 * to be added
-	 */
-	public Passenger[] addPassenger(Passenger randomcustomer, Passenger[] airline){//not finished
-		return  randomcustomer = airline.toArray(new Passenger[airline.length]);
 
-	//has a 5 percent chance of returning false when a passenger doesnt check in
-		public static boolean checkInSimulation(int i, ArrayList<Passenger> arr) {
-			Random rand = new Random();
-			int sim = rand.nextInt(100);
-			if(sim > 5) {
-				return true;//returns true if the passenger checks in
-			}
-		arr.remove(i);
-		return false;
-		//returns false if the passenger doesn't check in and deletes them from the array
-	}
-		//has a 10 percent chance of returning false when a new passenger checks in
-
-		public static boolean NewPassengerSimulation(PassengerLists arr, ArrayList<Passenger> randomcustomer) {
-			Random rand = new Random();
-			int sim = rand.nextInt(100);
-			if(sim > 10) {
-				return true;//returns true if no new passenger is checking in
-			}
-			arr.addPassenger(randomcustomer.get(0));
-		return false;//returns false if a new passenger is checking in
-	
-		}
 
 }
