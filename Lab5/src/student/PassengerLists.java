@@ -41,8 +41,7 @@ public class PassengerLists {
 	public int getSize() {
 		return size;
 	}
-	
-//This is a test comment to try and fix an issue with github
+	//test comment
 	public static void main(String[] args) throws FileNotFoundException {
 		Scanner scnr = new Scanner(new InputStreamReader(System.in));
 		
