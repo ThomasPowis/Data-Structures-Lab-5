@@ -54,14 +54,20 @@ public class PassengerLists {
 			System.out.println(deltaFlight.getAll()[i].getName());
 		}
 		
-		System.out.println("Hello! Please type in one of the following options (Check-In, Book, Boarding)");
-		String input = scnr.nextLine();
-		Menu(input, scnr);
+		Menu(deltaFlight, unitedFlight);
 	}
 	
-	private static void Menu(String input, Scanner scnr) {
+	private static void Menu(PassengerLists first, PassengerLists second) {
+		System.out.println("Hello! Please type in one of the following options (Check-In, Book, Boarding)");
+		Scanner sc = new Scanner(System.in);
+		String input = sc.nextLine();
+		
 		if (input.compareToIgnoreCase("Check-In") == 0) {
-			//check-in method
+			//Check-In method
+			//1. Pass in the name and the flight list
+			//2. check if the name is in the flight list
+			//3. If the name is in the array add it to some sort of data structure that stores the people that have checked in.
+			CheckIn();
 		}
 		else if (input.compareToIgnoreCase("Book") == 0) {
 			//book method
@@ -71,7 +77,6 @@ public class PassengerLists {
 		}
 		else {
 			System.out.println("Invalid input. Please try again, type one of these three options (Check-In, Book, Boarding)");
-			Menu(scnr.nextLine(), scnr);
 		}
 	}
 	
@@ -92,7 +97,7 @@ public class PassengerLists {
 	 * to be added
 	 */
 	public Passenger[] addPassenger(Passenger randomcustomer, Passenger[] airline){//not finished
-		return  randomcustomer = airline.toArray(new Passenger[airline.length]);;
+		return  randomcustomer = airline.toArray(new Passenger[airline.length]);
 
 	//has a 5 percent chance of returning false when a passenger doesnt check in
 		public static boolean checkInSimulation(int i, ArrayList<Passenger> arr) {
