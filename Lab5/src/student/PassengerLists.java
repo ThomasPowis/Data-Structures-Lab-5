@@ -6,6 +6,7 @@ import java.io.InputStreamReader;
 import java.util.*;
 import java.util.zip.CheckedInputStream;
 
+//public class PassengerList created by Megan
 public class PassengerLists {
 
 	private Passenger[] customers;
@@ -50,7 +51,8 @@ public class PassengerLists {
 		customers[customers.length-1] = addPass;
 		size++;
 	}
-	//test comment
+	
+	//Main method made by Megan
 	public static void main(String[] args) throws FileNotFoundException {
 		Scanner scnr = new Scanner(new InputStreamReader(System.in));
 
@@ -71,6 +73,7 @@ public class PassengerLists {
 		}
 	}
 
+	//Menu method made by Megan
 	private static void Menu(PassengerLists first, PassengerLists second) {
 		System.out.println("Hello! Please type in one of the following options (Check-In, Book, Boarding)");
 		Scanner sc = new Scanner(System.in);
@@ -120,6 +123,7 @@ public class PassengerLists {
 	 * then will work along with the NewPassengerSimulation to see if a new
 	 * passenger needs to be added then will display the new passenger list
 	 */
+	//CheckIn method made by Jonathan Day
 	public static void CheckIn(PassengerLists x, String Name, int airline) {//not finished
 		for(int i = 0; i < x.getSize(); i++) {
 			if(Name.equalsIgnoreCase(x.getAll()[i].getName())) {
