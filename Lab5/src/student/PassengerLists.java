@@ -1,10 +1,12 @@
+
 package student;
+
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStreamReader;
 import java.util.*;
-import java.util.zip.CheckedInputStream;
+
 
 //public class PassengerList created by Megan
 public class PassengerLists {
@@ -60,9 +62,12 @@ public class PassengerLists {
 		PassengerLists deltaFlight = new PassengerLists(args[0]);
 		PassengerLists unitedFlight = new PassengerLists(args[1]);
 
-		
-		Menu(deltaFlight, unitedFlight);
-		
+		System.out.println("Would you like to run a simulation or manual mode?");
+		String input = scnr.nextLine();
+		if (input.compareToIgnoreCase("Manual") == 0)
+			Menu(deltaFlight, unitedFlight);
+		else
+			simulation(deltaFlight,unitedFlight);
 	}
 
 	//Menu method made by Megan
@@ -210,7 +215,7 @@ public class PassengerLists {
 		Queue<Passenger> businessClass= new LinkedList<>();
 		Queue<Passenger> economy = new LinkedList<>();
 		//Looping through and pulling out the passengers
-		for(int i = 0; i < deltaCheckedIn.size(); i++) {
+		while(deltaCheckedIn.isEmpty()==false) {
 			if(deltaCheckedIn.peek().getClassName() == "F") {
 				firstClass.add(deltaCheckedIn.poll());
 			} else if(deltaCheckedIn.peek().getClassName() == "B") {
@@ -221,19 +226,19 @@ public class PassengerLists {
 		}
 		
 		System.out.println("Delta boarding order:");
-		for(int i = 0; i < firstClass.size(); i++) {
+		while(firstClass.isEmpty()==false){
 			System.out.println(firstClass.poll());
 		}
-		for(int i = 0; i < businessClass.size(); i++) {
+		while(businessClass.isEmpty() == false) {
 			System.out.println(businessClass.poll());
 		}
-		for (int i = 0; i < economy.size(); i++) {
+		while(economy.isEmpty() == false) {
 			System.out.println(economy.poll());
 		}
-		firstClass = null;
-		businessClass = null;
-		economy = null;
-		for(int i = 0; i < unitedCheckedIn.size(); i++) {
+		firstClass = new LinkedList<>();;
+		businessClass = new LinkedList<>();;
+		economy = new LinkedList<>();;
+		while(unitedCheckedIn.isEmpty()==false) {
 			if(unitedCheckedIn.peek().getClassName() == "F") {
 				firstClass.add(unitedCheckedIn.poll());
 			} else if(unitedCheckedIn.peek().getClassName() == "B") {
@@ -243,24 +248,62 @@ public class PassengerLists {
 			}
 		}
 		
-		System.out.println("United boarding order:");
-		if(firstClass != null) {
-			for(int i = 0; i < firstClass.size(); i++) {
-				System.out.println(firstClass.poll());
-			}
+		System.out.println("Delta boarding order:");
+		while(firstClass.isEmpty()==false){
+			System.out.println(firstClass.poll());
 		}
-		if(businessClass != null) {
-			for(int i = 0; i < businessClass.size(); i++) {
-				System.out.println(businessClass.poll());
-			}
+		while(businessClass.isEmpty() == false) {
+			System.out.println(businessClass.poll());
 		}
-		if(economy != null) {
-			for (int i = 0; i < economy.size(); i++) {
-				System.out.println(economy.poll());
+		while(economy.isEmpty() == false) {
+			System.out.println(economy.poll());
+		}
+		
+	}
+	public static void simulation(PassengerLists deltaFlight, PassengerLists unitedFlight) {
+		System.out.println("This is a simulation");
+		//5% chance for a passenger to not check in
+		//10% chance their is new passengers (1-10) w/random names and flight classes
+		//First check in
+		//First check in united then delta
+		//System.out.println(deltaFlight.getSize());
+		for(int i = 0; i <deltaFlight.getSize(); i++) {
+			int a = new Random().nextInt(20);
+			if(a!=0) {
+				CheckIn(deltaFlight,deltaFlight.getAll()[i].getName(),0);
 			}
 		}
 		
-		//Simulation method
-		
+		for(int i = 0; i <unitedFlight.getSize(); i++) {
+			int a = new Random().nextInt(20);
+			if(a!=0) {
+				CheckIn(unitedFlight,unitedFlight.getAll()[i].getName(),1);
+			}
+		}
+		//Next book
+		//Create a 10 % chance of there being additional passengers
+		int a = new Random().nextInt(10);
+		if(a == 0) {
+			//Generate a random number between 1 and 10 to decide how many additional passengers there will be
+			Random rand = new Random();
+			int amount = rand.nextInt(10 - 1 +1) + 1;
+			String[] ranNames = {"Tom Doe","John Smith", "Jane Foster","Bill Builder","Karen Sully","Ernie Magic","Paul Tree",
+					"Ashley Plain","Derek White","Arian Foster"};//Random array of names to choose from
+			String[] ranClasses = {"B","F","E"}; //Random array of classes to choose from
+					
+			//Generating random passengers
+			for(int i = 0; i < amount; i++) {
+				String name = ranNames[new Random().nextInt(10)]; //Randomly select a name
+				String chosenClass = ranClasses[new Random().nextInt(3)]; //Randomly select a class
+				int ranFlight = new Random().nextInt(2); //randomly select a flight
+				if(ranFlight == 0) {
+					book(deltaFlight,name,chosenClass,0);
+				} else {
+					book(unitedFlight,name,chosenClass,1);
+				}	
+			}
+		}
+		//Finally board
+		board();
 	}
 }
