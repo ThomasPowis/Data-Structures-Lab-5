@@ -60,60 +60,55 @@ public class PassengerLists {
 		PassengerLists deltaFlight = new PassengerLists(args[0]);
 		PassengerLists unitedFlight = new PassengerLists(args[1]);
 
-		//Test output of the deltaFlight object
-		System.out.println("Delta Before: ");
-		for(int i = 0; i < deltaFlight.getSize(); i++) {
-			System.out.println(deltaFlight.getAll()[i].getName());
-		}
-
+		
 		Menu(deltaFlight, unitedFlight);
-		System.out.println("Delta After: ");
-		for(int i = 0; i < deltaFlight.getSize(); i++) {
-			System.out.println(deltaFlight.getAll()[i].getName());
-		}
+		
 	}
 
 	//Menu method made by Megan
 	private static void Menu(PassengerLists first, PassengerLists second) {
-		System.out.println("Hello! Please type in one of the following options (Check-In, Book, Boarding)");
-		Scanner sc = new Scanner(System.in);
-		String input = sc.nextLine();
-
-		if (input.compareToIgnoreCase("Check-In") == 0) {
-			//Check-In method
-			//1. Pass in the name and the flight list
-			//2. check if the name is in the flight list
-			//3. If the name is in the array add it to some sort of data structure that stores the people that have checked in.
-			System.out.println("What is you name");
-			String Name = sc.nextLine();
-			System.out.println("What flight are you on");
-			String Flight = sc.nextLine();
-			if(Flight.equalsIgnoreCase("Delta")) {
-				CheckIn(first, Name, 0);
+		while(true) {
+			System.out.println("Hello! Please type in one of the following options (Check-In, Book, Boarding)");
+			Scanner sc = new Scanner(System.in);
+			String input = sc.nextLine();
+	
+			if (input.compareToIgnoreCase("Check-In") == 0) {
+				//Check-In method
+				//1. Pass in the name and the flight list
+				//2. check if the name is in the flight list
+				//3. If the name is in the array add it to some sort of data structure that stores the people that have checked in.
+				System.out.println("What is you name");
+				String Name = sc.nextLine();
+				System.out.println("What flight are you on");
+				String Flight = sc.nextLine();
+				if(Flight.equalsIgnoreCase("Delta")) {
+					CheckIn(first, Name, 0);
+				}
+				else {
+					CheckIn(second, Name, 1);
+				}
+			}
+	
+			else if (input.compareToIgnoreCase("Book") == 0) {
+				System.out.println("Please type in the first letter of the airline you want to book a seat on: ");
+				String air = sc.nextLine();
+				System.out.println("Please enter your name: ");
+				String name = sc.nextLine();
+				System.out.println("Please enter your the first letter of your desired class (F for first , B for business and E for economy): ");
+				String chosenClass = sc.nextLine();
+				if(air.toUpperCase().equals("D")) {
+					book(first,name,chosenClass,0);
+				} else if(air.toUpperCase().equals("U")) {
+					book(second,name,chosenClass,0);
+				}
+			}
+			else if (input.compareToIgnoreCase("Boarding") == 0) {
+				board();
+				return;
 			}
 			else {
-				CheckIn(second, Name, 1);
+				System.out.println("Invalid input. Please try again, type one of these three options (Check-In, Book, Boarding)");
 			}
-		}
-
-		else if (input.compareToIgnoreCase("Book") == 0) {
-			System.out.println("Please type in the first letter of the airline you want to book a seat on: ");
-			String air = sc.nextLine();
-			System.out.println("Please enter your name: ");
-			String name = sc.nextLine();
-			System.out.println("Please enter your the first letter of your desired class (F for first , B for business and E for economy): ");
-			String chosenClass = sc.nextLine();
-			if(air.toUpperCase().equals("D")) {
-				book(first,name,chosenClass,0);
-			} else if(air.toUpperCase().equals("U")) {
-				book(second,name,chosenClass,0);
-			}
-		}
-		else if (input.compareToIgnoreCase("Boarding") == 0) {
-			// boarding method
-		}
-		else {
-			System.out.println("Invalid input. Please try again, type one of these three options (Check-In, Book, Boarding)");
 		}
 	}
 
@@ -128,7 +123,6 @@ public class PassengerLists {
 		for(int i = 0; i < x.getSize(); i++) {
 			if(Name.equalsIgnoreCase(x.getAll()[i].getName())) {
 				if(airline == 0) {//this is for delta Checkin
-					System.out.println("delta works!");
 					deltaCheckedIn.add(x.getAll()[i]);
 					return;
 				}
@@ -145,7 +139,7 @@ public class PassengerLists {
 	public static void book(PassengerLists desiredFlight, String name, String desClass, int whichFlight) {
 		//0 is delta 1 is united
 		Scanner s = new Scanner(System.in);
-		int fSize = 0;
+		int fSize = 0; 
 		int bSize = 0;
 		int eSize = 0;
 		for(int i = 0; i < desiredFlight.getSize(); i++) {
@@ -169,7 +163,9 @@ public class PassengerLists {
 				break;
 			}else if (eSize >= 20 && fSize >= 10 && bSize >= 10){
 				//No seats left
-				System.out.println("There are no seats left on this flight!");
+				System.out.println("There are no seats left on this flight,  you are"
+						+ "now on standby!");
+				//noDelta.add()
 				return;
 			} else {
 				//Choose different class
@@ -179,6 +175,7 @@ public class PassengerLists {
 		}
 		
 		int currSize = 0;
+		//Getting current highest seat number 
 		for(int i = 0; i < desiredFlight.getSize(); i++) {
 			int currSeatNum = Integer.parseInt(desiredFlight.getAll()[i].getseatNumber());
 			if(desiredFlight.getAll()[i].getClassName().equals(desClass) && currSeatNum > currSize) {
@@ -197,5 +194,73 @@ public class PassengerLists {
 		//Seat is available
 		System.out.println("You have been successfully added to this flight, your seat number is: " + currSize);
 		return;
+	}
+	
+	//Boarding method
+	public static void board() {
+		//Order:
+		//First class
+		//Business
+		//Economy
+		//Delta board first
+		//Loop through the checkin queue for delta and pull out the passengers in the correct order 
+		//Then print them
+		//Then do the same for united
+		Queue<Passenger> firstClass = new LinkedList<>();
+		Queue<Passenger> businessClass= new LinkedList<>();
+		Queue<Passenger> economy = new LinkedList<>();
+		//Looping through and pulling out the passengers
+		for(int i = 0; i < deltaCheckedIn.size(); i++) {
+			if(deltaCheckedIn.peek().getClassName() == "F") {
+				firstClass.add(deltaCheckedIn.poll());
+			} else if(deltaCheckedIn.peek().getClassName() == "B") {
+				businessClass.add(deltaCheckedIn.poll());
+			} else {
+				economy.add(deltaCheckedIn.poll());
+			}
+		}
+		
+		System.out.println("Delta boarding order:");
+		for(int i = 0; i < firstClass.size(); i++) {
+			System.out.println(firstClass.poll());
+		}
+		for(int i = 0; i < businessClass.size(); i++) {
+			System.out.println(businessClass.poll());
+		}
+		for (int i = 0; i < economy.size(); i++) {
+			System.out.println(economy.poll());
+		}
+		firstClass = null;
+		businessClass = null;
+		economy = null;
+		for(int i = 0; i < unitedCheckedIn.size(); i++) {
+			if(unitedCheckedIn.peek().getClassName() == "F") {
+				firstClass.add(unitedCheckedIn.poll());
+			} else if(unitedCheckedIn.peek().getClassName() == "B") {
+				businessClass.add(unitedCheckedIn.poll());
+			} else {
+				economy.add(unitedCheckedIn.poll());
+			}
+		}
+		
+		System.out.println("United boarding order:");
+		if(firstClass != null) {
+			for(int i = 0; i < firstClass.size(); i++) {
+				System.out.println(firstClass.poll());
+			}
+		}
+		if(businessClass != null) {
+			for(int i = 0; i < businessClass.size(); i++) {
+				System.out.println(businessClass.poll());
+			}
+		}
+		if(economy != null) {
+			for (int i = 0; i < economy.size(); i++) {
+				System.out.println(economy.poll());
+			}
+		}
+		
+		//Simulation method
+		
 	}
 }
