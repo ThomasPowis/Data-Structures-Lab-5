@@ -57,20 +57,10 @@ public class PassengerLists {
 		Scanner scnr = new Scanner(new InputStreamReader(System.in));
 
 		//Pass in Delta.txt as the first run arguement and United.txt as the second
-		PassengerLists deltaFlight = new PassengerLists(args[0]);
-		PassengerLists unitedFlight = new PassengerLists(args[1]);
-
-		//Test output of the deltaFlight object
-		System.out.println("Delta Before: ");
-		for(int i = 0; i < deltaFlight.getSize(); i++) {
-			System.out.println(deltaFlight.getAll()[i].getName());
-		}
+		PassengerLists deltaFlight = new PassengerLists("Delta.txt");
+		PassengerLists unitedFlight = new PassengerLists("United.txt");
 
 		Menu(deltaFlight, unitedFlight);
-		System.out.println("Delta After: ");
-		for(int i = 0; i < deltaFlight.getSize(); i++) {
-			System.out.println(deltaFlight.getAll()[i].getName());
-		}
 	}
 
 	//Menu method made by Megan
